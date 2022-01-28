@@ -12,16 +12,19 @@ class UserController {
       req.body;
 
     if (security_token != process.env.SECURITY_TOKEN)
-      return res.sendStatus(401);
+      return res.status(401).send({ message: "Token de segurança inválido" });
 
     if (!firstName || !lastName || !username || !email || !password)
-      return res.sendStatus(401);
+      return res.status(401).send({ message: "Preencha todos os campos" });
 
     const userExists =
       (await repository.findOne({ where: { username } })) ||
       (await repository.findOne({ where: { email } }));
 
-    if (userExists) return res.sendStatus(409);
+    if (userExists)
+      return res
+        .status(409)
+        .send({ message: "Usuário ou email já cadastrado" });
 
     const user = repository.create({
       firstName,

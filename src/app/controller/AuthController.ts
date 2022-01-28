@@ -11,15 +11,18 @@ class AuthController {
 
     const { username, password } = req.body;
 
-    if (!username || !password) return res.sendStatus(401);
+    if (!username || !password)
+      return res.status(401).send({ message: "Preencha todos os campos" });
 
     const user = await repository.findOne({ where: { username } });
 
-    if (!user) return res.sendStatus(404);
+    if (!user)
+      return res.status(401).send({ message: "Usuário não encontrado" });
 
     const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if (!isValidPassword) return res.sendStatus(401);
+    if (!isValidPassword)
+      return res.status(401).send({ message: "Senha inválida" });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN_SECRET, {
       expiresIn: "1d",
