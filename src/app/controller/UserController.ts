@@ -8,7 +8,11 @@ class UserController {
   async create(req: Request, res: Response) {
     const repository = getRepository(User);
 
-    const { firstName, lastName, username, email, password } = req.body;
+    const { firstName, lastName, username, email, password, security_token } =
+      req.body;
+
+    if (security_token != process.env.SECURITY_TOKEN)
+      return res.sendStatus(401);
 
     if (!firstName || !lastName || !username || !email || !password)
       return res.sendStatus(401);
@@ -45,6 +49,8 @@ class UserController {
       const { id }: any = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
       const user = await repository.findOne({ where: { id } });
+
+      if (!user) return res.send(404);
 
       delete user.password;
 
