@@ -29,8 +29,7 @@ class AuthController {
     });
 
     return res.json({
-      firstName: user.firstName,
-      lastName: user.lastName,
+      fullName: user.fullName,
       username,
       email: user.email,
       avatarUrl: user.avatarUrl,

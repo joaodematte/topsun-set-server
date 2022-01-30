@@ -50,6 +50,12 @@ class ManufacturersController {
       name: upperUpdatedName,
       productsType: manufacturer.productsType,
     });
+
+    const updatedManufacturer = await repository.findOne({
+      where: { id: manufacturer.id },
+    });
+
+    return res.json(updatedManufacturer);
   }
 
   async delete(req: Request, res: Response) {

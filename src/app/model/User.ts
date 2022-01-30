@@ -13,10 +13,7 @@ class User {
   id: string;
 
   @Column("text")
-  firstName: string;
-
-  @Column("text")
-  lastName: string;
+  fullName: string;
 
   @Column("text")
   username: string;

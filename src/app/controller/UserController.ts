@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getRepository } from "typeorm";
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 import User from "../model/User";
 
@@ -8,14 +8,30 @@ class UserController {
   async create(req: Request, res: Response) {
     const repository = getRepository(User);
 
-    const { firstName, lastName, username, email, password, security_token } =
-      req.body;
+    const {
+      fullName,
+      username,
+      email,
+      password,
+      password_confirm,
+      security_token,
+    } = req.body;
+
+    if (
+      !fullName ||
+      !username ||
+      !email ||
+      !password ||
+      !security_token ||
+      !password_confirm
+    )
+      return res.status(401).send({ message: "Preencha todos os campos" });
 
     if (security_token != process.env.SECURITY_TOKEN)
       return res.status(401).send({ message: "Token de segurança inválido" });
 
-    if (!firstName || !lastName || !username || !email || !password)
-      return res.status(401).send({ message: "Preencha todos os campos" });
+    if (password !== password_confirm)
+      return res.status(401).send({ message: "As senhas não conferem" });
 
     const userExists =
       (await repository.findOne({ where: { username } })) ||
@@ -27,8 +43,7 @@ class UserController {
         .send({ message: "Usuário ou email já cadastrado" });
 
     const user = repository.create({
-      firstName,
-      lastName,
+      fullName,
       username,
       email,
       avatarUrl:
@@ -43,22 +58,46 @@ class UserController {
     return res.json(user);
   }
 
+  async update(req: Request, res: Response) {
+    const repository = getRepository(User);
+    let token = req.headers.authorization;
+
+    const { fullName, username, email, avatarUrl } = req.body;
+
+    if (!fullName || !username || !email || !avatarUrl)
+      return res.status(401).send({ message: "Preencha todos os campos" });
+
+    token = token.replace("Bearer", "").trim();
+    const { id }: any = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+
+    const user = await repository.findOne({ where: { id } });
+
+    if (!user) return res.status(404).send({ message: "Usuário inexistente" });
+
+    await repository.update({ id }, { fullName, username, email, avatarUrl });
+
+    const updatedUser = await repository.findOne({ where: { id } });
+
+    delete updatedUser.id;
+    delete updatedUser.password;
+
+    return res.json(updatedUser);
+  }
+
   async getUserByJWTToken(req: Request, res: Response) {
     const repository = getRepository(User);
     let token = req.headers.authorization;
 
-    if (token) {
-      token = token.replace("Bearer", "").trim();
-      const { id }: any = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
+    token = token.replace("Bearer", "").trim();
+    const { id }: any = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
-      const user = await repository.findOne({ where: { id } });
+    const user = await repository.findOne({ where: { id } });
 
-      if (!user) return res.send(404);
+    if (!user) return res.status(404).send({ message: "Usuário inexistente" });
 
-      delete user.password;
+    delete user.password;
 
-      return res.json(user);
-    }
+    return res.json(user);
   }
 }
 
