@@ -4,12 +4,21 @@ import { getRepository } from "typeorm";
 import Manufacturer from "../model/Manufacturer";
 
 class ManufacturersController {
+  async review(req: Request, res: Response) {
+    const repository = getRepository(Manufacturer);
+
+    const manufacturers = await repository.find();
+
+    return res.json(manufacturers);
+  }
+
   async create(req: Request, res: Response) {
     const repository = getRepository(Manufacturer);
 
     const { name, productsType } = req.body;
 
-    if (!name || productsType === null) return res.sendStatus(401);
+    if (!name || productsType === null)
+      return res.status(401).send({ message: "Preencha todos os campos" });
 
     const upperName = name.toUpperCase();
 
@@ -32,15 +41,15 @@ class ManufacturersController {
   async update(req: Request, res: Response) {
     const repository = getRepository(Manufacturer);
 
-    const { name, updatedName } = req.body;
+    const { id, name } = req.body;
 
-    if (!name || !updatedName) return res.sendStatus(401);
+    if (!id || !name)
+      return res.status(401).send({ message: "Preencha todos os campos" });
 
-    const upperName = name.toUpperCase();
-    const upperUpdatedName = updatedName.toUpperCase();
+    const upperUpdatedName = name.toUpperCase();
 
     const manufacturer = await repository.findOne({
-      where: { name: upperName },
+      where: { id },
     });
 
     if (!manufacturer) return res.sendStatus(404);
@@ -52,7 +61,7 @@ class ManufacturersController {
     });
 
     const updatedManufacturer = await repository.findOne({
-      where: { id: manufacturer.id },
+      where: { id },
     });
 
     return res.json(updatedManufacturer);
@@ -61,14 +70,12 @@ class ManufacturersController {
   async delete(req: Request, res: Response) {
     const repository = getRepository(Manufacturer);
 
-    const { name } = req.body;
+    const { id } = req.body;
 
-    if (!name) return res.sendStatus(401);
-
-    const upperName = name.toUpperCase();
+    if (!id) return res.sendStatus(401);
 
     const manufacturer = await repository.findOne({
-      where: { name: upperName },
+      where: { id },
     });
 
     if (!manufacturer) return res.sendStatus(404);

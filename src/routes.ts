@@ -18,6 +18,7 @@ router.post(
   ManufacturersController.update
 );
 router.delete("/manufacturers", authMiddleware, ManufacturersController.delete);
+router.get("/manufacturers", authMiddleware, ManufacturersController.review);
 
 router.post("/auth", AuthController.create);
 
