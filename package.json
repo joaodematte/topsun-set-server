@@ -1,7 +1,7 @@
 {
   "name": "topsun-set-server",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "dist/server.js",
   "author": "João Dematte",
   "license": "MIT",
   "scripts": {
