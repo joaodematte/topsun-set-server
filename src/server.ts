@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://topsun-set-web.vercel.app",
+    origin: ["https://topsun-set-web.vercel.app", "https://topsun.dematte.me"],
   })
 );
 
