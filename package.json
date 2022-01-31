@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
     "build": "tsc && cp -r ./src/utils dist/",
-    "start": "node dist/index.js"
+    "start": "node ./dist/index.js"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
