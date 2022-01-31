@@ -10,8 +10,21 @@ const app = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  if ("OPTIONS" == req.method) {
+    return res.sendStatus(200);
+  } else {
+    next();
+  }
 });
 
 app.use(router);
