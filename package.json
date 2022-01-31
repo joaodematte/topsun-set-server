@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node ./node_modules/typeorm/cli.js",
-    "build": "tsc && cp -r ./src/geradores dist/",
+    "build": "tsc && cp -r ./src/utils dist/",
     "start": "node dist/index.js"
   },
   "devDependencies": {
