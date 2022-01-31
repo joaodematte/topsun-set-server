@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import solarPanel from "./SolarPanel";
 
 @Entity("manufacturers")
 class Manufacturer {

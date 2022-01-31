@@ -67,12 +67,26 @@ class UserController {
     if (!fullName || !username || !email || !avatarUrl)
       return res.status(401).send({ message: "Preencha todos os campos" });
 
+    // TODO
+    // verificar se username já existe, enviar retorno
+    // verificar se email já existe, enviar retorno
+    // caso n, continua
+
     token = token.replace("Bearer", "").trim();
     const { id }: any = jwt.verify(token, process.env.JWT_TOKEN_SECRET);
 
     const user = await repository.findOne({ where: { id } });
 
     if (!user) return res.status(404).send({ message: "Usuário inexistente" });
+
+    const existingUsername = await repository.findOne({ where: { username } });
+    const existingEmail = await repository.findOne({ where: { email } });
+
+    if (existingUsername && existingUsername.id != user.id)
+      return res.status(409).send({ message: "Nome de usuário já existente" });
+
+    if (existingEmail && existingEmail.id != user.id)
+      return res.status(409).send({ message: "Email já existente" });
 
     await repository.update({ id }, { fullName, username, email, avatarUrl });
 

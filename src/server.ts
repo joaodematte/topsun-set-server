@@ -9,12 +9,17 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://topsun-set-web.vercel.app/",
+    preflightContinue: true,
+  })
+);
 
 app.use(router);
 
 const port = process.env.PORT || 3333;
 
 app.listen(port, () => {
-  console.log(`🚀 servidor iniciado em http://localhost:${port}`);
+  console.log(`🚀 servidor iniciado em http://ip:${port}`);
 });

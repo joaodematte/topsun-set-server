@@ -12,6 +12,16 @@ class ManufacturersController {
     return res.json(manufacturers);
   }
 
+  async reviewSpecific(req: Request, res: Response) {
+    const repository = getRepository(Manufacturer);
+
+    console.log(req.params.uuid);
+
+    const manufacturer = await repository.findOne(req.params.uuid);
+
+    return res.json(manufacturer);
+  }
+
   async create(req: Request, res: Response) {
     const repository = getRepository(Manufacturer);
 
