@@ -43,9 +43,9 @@ class UserController {
         .send({ message: "Usuário ou email já cadastrado" });
 
     const user = repository.create({
-      fullName,
-      username,
-      email,
+      fullName: fullName.trim(),
+      username: username.trim(),
+      email: email.trim(),
       avatarUrl:
         "https://camo.githubusercontent.com/272bd51e8b58f528fb8b665699c623d32559bd121989a8449ad0c708219feb37/68747470733a2f2f312e67726176617461722e636f6d2f6176617461722f65303866333533346461636661386166643132393433313261316338393165643f643d68747470732533412532462532466769746875622e6769746875626173736574732e636f6d253246696d6167657325324667726176617461727325324667726176617461722d757365722d3432302e706e6726723d6726733d313430",
       password,
@@ -88,7 +88,15 @@ class UserController {
     if (existingEmail && existingEmail.id != user.id)
       return res.status(409).send({ message: "Email já existente" });
 
-    await repository.update({ id }, { fullName, username, email, avatarUrl });
+    await repository.update(
+      { id },
+      {
+        fullName: fullName.trim(),
+        username: username.trim(),
+        email: email.trim(),
+        avatarUrl: avatarUrl.trim(),
+      }
+    );
 
     const updatedUser = await repository.findOne({ where: { id } });
 

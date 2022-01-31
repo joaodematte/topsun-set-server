@@ -51,9 +51,9 @@ class SolarPanelController {
       return res.status(409).send({ message: "Modelo já existente" });
 
     const solarPanel = repository.create({
-      model,
+      model: model.trim(),
       outputs,
-      manufacturerId,
+      manufacturerId: manufacturerId.trim(),
       manufacturerName: manufacturer.name,
     });
 
@@ -93,7 +93,7 @@ class SolarPanelController {
     if (modelExists && modelExists.model != model)
       return res.status(409).send({ message: "Modelo já existe" });
 
-    await repository.update(id, { model, outputs });
+    await repository.update(id, { model: model.trim(), outputs });
     const updatedSolarPanel = await repository.findOne(id);
 
     return res.json(updatedSolarPanel);

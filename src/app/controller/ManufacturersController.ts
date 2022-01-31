@@ -39,7 +39,7 @@ class ManufacturersController {
     if (manufacturerExists) return res.sendStatus(409);
 
     const manufacturer = repository.create({
-      name: upperName,
+      name: upperName.trim(),
       productsType,
     });
 
@@ -66,7 +66,7 @@ class ManufacturersController {
 
     await repository.save({
       id: manufacturer.id,
-      name: upperUpdatedName,
+      name: upperUpdatedName.trim(),
       productsType: manufacturer.productsType,
     });
 

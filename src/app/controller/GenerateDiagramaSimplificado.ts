@@ -64,7 +64,7 @@ class GenerateDiagramaSimplificado {
 
     const pages = pdfDoc.getPages();
 
-    pages[0].drawText(`${medidor}`, {
+    pages[0].drawText(`${medidor.trim()}`, {
       x: 400 - customFont.widthOfTextAtSize(medidor, 15) / 2,
       y: 605,
       size: 15,
@@ -72,7 +72,7 @@ class GenerateDiagramaSimplificado {
       color: rgb(0, 0, 0),
     });
 
-    pages[0].drawText(`${capacidadeDisjuntor}A`, {
+    pages[0].drawText(`${capacidadeDisjuntor.trim()}A`, {
       x: 450,
       y: 534,
       size: 15,
@@ -80,11 +80,11 @@ class GenerateDiagramaSimplificado {
       color: rgb(0, 0, 0),
     });
 
-    pages[0].drawText(`Inversor ${inversor_modelo_array[0]}`, {
+    pages[0].drawText(`Inversor ${inversor_modelo_array[0].trim()}`, {
       x:
         335 -
         customFont.widthOfTextAtSize(
-          `Inversor ${inversor_modelo_array[0]}`,
+          `Inversor ${inversor_modelo_array[0].trim()}`,
           15
         ) /
           2,
@@ -95,10 +95,14 @@ class GenerateDiagramaSimplificado {
     });
 
     if (inversor_modelo_array[1]) {
-      pages[0].drawText(inversor_modelo_array[1], {
+      pages[0].drawText(inversor_modelo_array[1].trim(), {
         x:
           335 -
-          customFont.widthOfTextAtSize(`${inversor_modelo_array[1]}`, 15) / 2,
+          customFont.widthOfTextAtSize(
+            `${inversor_modelo_array[1].trim()}`,
+            15
+          ) /
+            2,
         y: 252,
         size: 15,
         font: customFont,
@@ -140,20 +144,28 @@ class GenerateDiagramaSimplificado {
       }
     );
 
-    pages[0].drawText(`Módulo ${manufacturerName.name}`, {
+    pages[0].drawText(`Módulo ${manufacturerName.name.trim()}`, {
       x:
         335 -
-        customFont.widthOfTextAtSize(`Módulo ${manufacturerName.name}`, 15) / 2,
+        customFont.widthOfTextAtSize(
+          `Módulo ${manufacturerName.name.trim()}`,
+          15
+        ) /
+          2,
       y: 160,
       size: 15,
       font: customFont,
       color: rgb(0, 0, 0),
     });
 
-    pages[0].drawText(`${solarPanelModelName.model}`, {
+    pages[0].drawText(`${solarPanelModelName.model.trim()}`, {
       x:
         335 -
-        customFont.widthOfTextAtSize(`${solarPanelModelName.model}`, 15) / 2,
+        customFont.widthOfTextAtSize(
+          `${solarPanelModelName.model.trim()}`,
+          15
+        ) /
+          2,
       y: 144,
       size: 15,
       font: customFont,

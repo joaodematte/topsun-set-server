@@ -30,9 +30,9 @@ class InverterController {
       return res.status(409).send({ message: "Modelo já existente" });
 
     const inverter = repository.create({
-      model,
+      model: model.trim(),
       activePower,
-      manufacturerId,
+      manufacturerId: manufacturerId.trim(),
       manufacturerName: manufacturer.name,
     });
 
@@ -72,7 +72,7 @@ class InverterController {
     if (modelExists && modelExists.model != model)
       return res.status(409).send({ message: "Modelo já existe" });
 
-    await repository.update(id, { model, activePower });
+    await repository.update(id, { model: model.trim(), activePower });
     const updatedInverter = await repository.findOne(id);
 
     return res.json(updatedInverter);
