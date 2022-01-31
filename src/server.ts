@@ -9,17 +9,17 @@ const app = express();
 
 app.use(express.json());
 
-app.use(
-  cors({
-    origin: "https://topsun-set-web.vercel.app",
-    preflightContinue: true,
-  })
-);
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 app.use(router);
 
 const port = process.env.PORT || 3333;
 
 app.listen(port, () => {
-  console.log(`🚀 servidor iniciado em http://ip:${port}`);
+  console.log(
+    `🚀 servidor iniciado em https://topsun-backend.herokuapp.com:${port}`
+  );
 });
