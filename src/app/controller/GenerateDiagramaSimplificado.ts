@@ -154,12 +154,16 @@ class GenerateDiagramaSimplificado {
       }
 
       pages[0].drawText(
-        `Inversor = ${fixNumber(inverterModelname0.activePower)}W`,
+        `Inversor = ${fixNumber(
+          inverterModelname0.activePower + inverterModelname1.activePower
+        )}W`,
         {
           x:
             825 -
             customFont.widthOfTextAtSize(
-              `Inversor = ${fixNumber(inverterModelname0.activePower)}`,
+              `Inversor = ${fixNumber(
+                inverterModelname0.activePower + inverterModelname1.activePower
+              )}`,
               15
             ) /
               2,
@@ -276,12 +280,12 @@ class GenerateDiagramaSimplificado {
       }
 
       pages[0].drawText(
-        `Inversor = ${fixNumber(inverterModelname0.activePower + inverterModelname1.activePower)}W`,
+        `Inversor = ${fixNumber(inverterModelname0.activePower)}W`,
         {
           x:
             675 -
             customFont.widthOfTextAtSize(
-              `Inversor = ${fixNumber(inverterModelname0.activePower + inverterModelname1.activePower)}`,
+              `Inversor = ${fixNumber(inverterModelname0.activePower)}`,
               15
             ) /
               2,
