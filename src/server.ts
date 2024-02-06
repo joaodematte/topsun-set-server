@@ -9,7 +9,12 @@ const app = express();
 
 app.use(express.json());
 
-app.use(cors());
+app.use(cors({
+    credentials: true,
+    preflightContinue: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH' , 'DELETE', 'OPTIONS'],
+    origin: true
+}));
 
 app.use(router);
 
